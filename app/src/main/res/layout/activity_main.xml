@@ -19,10 +19,12 @@
       android:layout_margin="16dp"
       app:chunkHeight="24dp"
       app:chunkRadius="1dp"
-      app:chunkSpacing="1dp"
+      app:chunkSpacing="0.5dp"
       app:chunkWidth="3dp"
       app:minChunkHeight="2dp"
-      app:waveColor="@android:color/white"
+      app:waveColor="@android:color/holo_red_dark"
+      app:waveBackgroundColor="@android:color/holo_blue_light"
+      app:alphaChannel="1"
       />
 
   <Button

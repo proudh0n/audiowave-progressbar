@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <declare-styleable name="AudioWaveView">
+    <attr format="float" name="alphaChannel"/>
     <attr format="color" name="waveColor"/>
+    <attr format="color" name="waveBackgroundColor"/>
     <attr format="dimension" name="chunkWidth"/>
     <attr format="dimension" name="chunkHeight"/>
     <attr format="dimension" name="minChunkHeight"/>
