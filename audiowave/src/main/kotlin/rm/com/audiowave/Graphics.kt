@@ -44,6 +44,13 @@ internal fun rectFOf(left: Int, top: Int, right: Int, bottom: Int) = RectF(
     , bottom.toFloat()
 )
 
+internal fun darkerBy(color: Int, percentage: Float): Int {
+  val hsv = FloatArray(3)
+  Color.colorToHSV(color, hsv)
+  hsv[2] = 1.0f - percentage * (1.0f - hsv[2])
+  return Color.HSVToColor(hsv)
+}
+
 internal fun Int.withAlpha(alpha: Int): Int {
   require(alpha in 0x00..0xFF)
   return this and 0x00FFFFFF or (alpha shl 24)

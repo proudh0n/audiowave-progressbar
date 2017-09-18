@@ -24,7 +24,7 @@
       app:minChunkHeight="2dp"
       app:waveColor="@android:color/holo_red_dark"
       app:waveBackgroundColor="@android:color/holo_blue_light"
-      app:alphaChannel="1"
+      app:alphaChannel="1.0"
       />
 
   <Button

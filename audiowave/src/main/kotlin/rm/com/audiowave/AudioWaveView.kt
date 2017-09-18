@@ -76,20 +76,19 @@ class AudioWaveView : View {
   var waveColor: Int = Color.BLACK
     set(value) {
       field = value
-//      wavePaint = smoothPaint(value.withAlpha(alphaFloatToHex(alphaChannel)))
-//      waveFilledPaint = filterPaint(value.withAlpha(alphaFloatToHex(alphaChannel)))
-//      postInvalidate()
+      wavePaint = filterPaint(value)
+      waveFilledPaint = filterPaint(darkerBy(value, 0.2f))
+      postInvalidate()
     }
 
   var waveBackgroundColor: Int = waveColor
     set(value) {
-        field = value
-//      if(value != waveColor) {
-//        field = value
-//        wavePaint = smoothPaint(value.withAlpha(alphaFloatToHex(alphaChannel)))
-//        waveFilledPaint = smoothPaint(waveColor.withAlpha(alphaFloatToHex(alphaChannel)))
-//        postInvalidate()
-//      }
+      field = value
+      if(value != waveColor) {
+        wavePaint = filterPaint(value)
+        waveFilledPaint = filterPaint(waveColor)
+      }
+      postInvalidate()
     }
 
   var progress: Float = 0F
@@ -147,8 +146,9 @@ class AudioWaveView : View {
     }
   }
 
-  private var wavePaint = smoothPaint(waveBackgroundColor.withAlpha(alphaFloatToHex(alphaChannel)))
-  private var waveFilledPaint = smoothPaint(waveColor.withAlpha(alphaFloatToHex(alphaChannel)))
+  private var basicPaint = smoothPaint(Color.WHITE.withAlpha(alphaFloatToHex(alphaChannel)))
+  private var wavePaint = filterPaint(waveColor)
+  private var waveFilledPaint = filterPaint(darkerBy(waveColor, 0.8f))
   private var waveBitmap: Bitmap? = null
 
   private var w: Int = 0
@@ -160,7 +160,7 @@ class AudioWaveView : View {
 
     cv.transform {
       clipRect(0, 0, w, h)
-      drawBitmap(waveBitmap, 0F, 0F, smoothPaint(Color.GREEN))
+      drawBitmap(waveBitmap, 0F, 0F, wavePaint)
     }
 
     cv.transform {
@@ -262,7 +262,7 @@ class AudioWaveView : View {
           ),
           chunkRadius.toFloat(),
           chunkRadius.toFloat(),
-          wavePaint
+          basicPaint
       )
     }
 
@@ -284,21 +284,15 @@ class AudioWaveView : View {
     with(resAttrs) {
       chunkHeight = getDimensionPixelSize(R.styleable.AudioWaveView_chunkHeight, chunkHeight)
       chunkWidth = getDimensionPixelSize(R.styleable.AudioWaveView_chunkWidth, chunkWidth)
-      chunkSpacing = getDimensionPixelSize(R.styleable.AudioWaveView_chunkSpacing,
-          chunkSpacing)
-      minChunkHeight = getDimensionPixelSize(R.styleable.AudioWaveView_minChunkHeight,
-          minChunkHeight)
+      chunkSpacing = getDimensionPixelSize(R.styleable.AudioWaveView_chunkSpacing, chunkSpacing)
+      minChunkHeight = getDimensionPixelSize(R.styleable.AudioWaveView_minChunkHeight, minChunkHeight)
       chunkRadius = getDimensionPixelSize(R.styleable.AudioWaveView_chunkRadius, chunkRadius)
       alphaChannel = getFloat(R.styleable.AudioWaveView_alphaChannel, alphaChannel)
       waveColor = getColor(R.styleable.AudioWaveView_waveColor, waveColor)
       waveBackgroundColor = getColor(R.styleable.AudioWaveView_waveBackgroundColor, waveBackgroundColor)
       progress = getFloat(R.styleable.AudioWaveView_progress, progress)
-      isExpansionAnimated = getBoolean(R.styleable.AudioWaveView_animateExpansion,
-          isExpansionAnimated)
+      isExpansionAnimated = getBoolean(R.styleable.AudioWaveView_animateExpansion, isExpansionAnimated)
       recycle()
     }
-
-    wavePaint = smoothPaint(waveColor.withAlpha(alphaFloatToHex(alphaChannel)))
-    waveFilledPaint = smoothPaint(waveBackgroundColor.withAlpha(alphaFloatToHex(alphaChannel)))
   }
 }
